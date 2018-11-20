@@ -1,0 +1,20 @@
+API auth success.
+259 people chose to flip.
+129 people who flipped got heads.
+130 people who flipped got tails.
+Human coin results:
+state     probability
+0         0.4980694980694981
+1         0.5019305019305019
+Quantum coin results:
+state     probability
+0         0.4980694980694981
+1         0.5019305019305019
+113 people chose to pass.
+Human coin results:
+state     probability
+0         1.0
+1         0.0
+Quantum coin results:
+state     probability
+0         1
