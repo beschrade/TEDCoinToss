@@ -8,7 +8,7 @@ import csv
 import random
 
 API_TOKEN = 'a0f9090f4b9b0a7f86cb31848730654bb4dbc35aab364a7d728162c96b264752d413b88daea7303c87f12e0a719345119c0f8a880a27d73b998887664a989fce'
-heads_qasm = "IBMQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\ncreg c[1];\nh q[0];\nh q[0];\nx q[0];\nmeasure q[0] -> c[0];\n"
+heads_qasm = "IBMQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\ncreg c[1];\nh q[0];\nx q[0];\nh q[0];\nmeasure q[0] -> c[0];\n"
 tails_qasm = "IBMQASM 2.0;\ninclude \"qelib1.inc\";\nqreg q[1];\ncreg c[1];\nh q[0];\nh q[0];\nmeasure q[0] -> c[0];\n"
 
 def test_api_auth_token():
@@ -89,8 +89,8 @@ def run_challenge(trials, flipped, device):
         qreg q[1]; //define 1 quibit register
         creg c[1]; //define 1 classical register
         h q[0]; //perfrom hadamard on q[0]
-        h q[0]; //perfrom hadamard on q[0] again
         x q[0]; //perform NOT on q[0] (if random toss results in 1)
+        h q[0]; //perfrom hadamard on q[0] again
         measure q[0] -> c[0]; //measure q[0] into c0[0]
     '''
     heads = 0
