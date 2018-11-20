@@ -38,9 +38,42 @@ def print_results(exp):
     '''
     print("state     probability")
     for i in range(len(exp['result']['measure']['labels'])):
-        print("{0}         {1}".format(exp['result']['measure']['labels'][i],exp['result']['measure']['values'][i]))    
+        if exp['result']['measure']['labels'][i] == '0':
+            label = 'heads'
+        else:
+            label = 'tails'
+        print("{0}         {1}".format(label ,exp['result']['measure']['values'][i]))    
 
     return
+
+def combine_results(heads_exp, tails_exp, head_bias, tail_bias):
+    '''
+    Combine the distributions of measured results from the given experiments
+    '''
+    results = {}
+    for i in range(len(heads_exp['result']['measure']['labels'])):
+        state = heads_exp['result']['measure']['labels'][i]
+        if (state == '0'):
+            bias = head_bias 
+        else: 
+            bias = tail_bias
+        if state in results:
+            results[state] += heads_exp['result']['measure']['values'][i] * bias
+        else:
+            results[state] = heads_exp['result']['measure']['values'][i] * bias
+            
+    for j in range(len(tails_exp['result']['measure']['labels'])):
+        state = tails_exp['result']['measure']['labels'][i]
+        if (state == '0'):
+            bias = head_bias 
+        else: 
+            bias = tail_bias
+        if state in results:
+            results[state] += tails_exp['result']['measure']['values'][i] * bias
+        else:
+            results[state] = tails_exp['result']['measure']['values'][i] * bias
+
+    return results
 
 def random_toss():
     return (random.uniform(0, 1) > 0.5)
@@ -97,21 +130,20 @@ exp_heads, exp_tails, heads, tails = run_challenge(flips, flipped=True, device='
 
 p_heads = heads/(heads+tails)
 p_tails = tails/(heads+tails)
-q_heads = exp_heads['result']['measure']['values'][0]
-q_tails = exp_tails['result']['measure']['values'][0]
 
 print('{0} people who flipped got heads.'.format(heads))
 print('{0} people who flipped got tails.'.format(tails))
 
 print('Human coin results:')
 print("state     probability")
-print("0         {0}".format(p_heads))
-print("1         {0}".format(p_tails))
-
+print("heads         {0}".format(p_heads))
+print("tails         {0}".format(p_tails))
+                       
 print('Quantum coin results:')
+results = combine_results(exp_heads, exp_tails, p_heads, p_tails)
 print("state     probability")
-print("0         {0}".format(q_heads * p_heads))
-print("1         {0}".format(q_tails * p_tails))
+print("heads         {0}".format(results['0']))
+print("tails         {0}".format(results['1']))
 
 print('{0} people chose to pass.'.format(passes))
 
@@ -122,8 +154,8 @@ p_tails = tails/(heads+tails)
 
 print('Human coin results:')
 print("state     probability")
-print("0         {0}".format(p_heads))
-print("1         {0}".format(p_tails))
+print("heads         {0}".format(p_heads))
+print("tails         {0}".format(p_tails))
 
 print('Quantum coin results:')
 print_results(exp_tails)
