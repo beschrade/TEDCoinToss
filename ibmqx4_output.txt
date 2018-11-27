@@ -17,4 +17,5 @@ heads         1.0
 tails         0.0
 Quantum coin results:
 state     probability
-heads         1
+heads         0.96
+tails         0.04
